@@ -4,7 +4,7 @@
 <br><br><br>
 <h1>Add Apparel</h1>
 
-        <form method="POST" action="">
+        <form>
            Apparel Name  <input type ="text" id="apparelName" required v-model="Apparel_Name"><br><br>
            Apparel Brand <input type="text" id="apparelBrand" required v-model="Apparel_Brand"><br><br>
            Apparel Description <input type ="text" id="apparelDescription" required v-model="Apparel_Description"><br><br>
@@ -15,7 +15,7 @@
            <input type="radio" name="gender" id="gender" value="men" required v-model="Apparel_Gender"> Men<br>
            <input type="radio" name="gender" id="gender" value="women" required v-model="Apparel_Gender"> Women<br><br>
            Size: 
-           <select id="size" v-model="Apparel_Size">
+           <select id="apparelSize" v-model="Apparel_Size">
                 <option value="Small" >Small</option>
                 <option value="Medium">Medium</option>
                 <option value="Large">Large</option>
@@ -91,9 +91,3 @@ data: function () {
 <style>
 
 </style>
-
-
-
-
-
-

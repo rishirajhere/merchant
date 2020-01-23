@@ -4,10 +4,11 @@
 <br><br><br>
 <h1>Add Shoe</h1>
 
+<form>
            
            Shoe Brand <input type="text" id="shoeBrand" required v-model="Shoe_Name"><br><br>
            Shoe Description <input type ="text" id="mobileDescription" required v-model="Shoe_Description"><br><br>
-           Size <input type ="number" id="size" required v-model="Shoe_Size"><br><br>
+           Size <input type ="number" id="shoeSize" required v-model="Shoe_Size"><br><br>
            No. of shoes to sell <input type ="number" id="quantity" required v-model="Shoe_Quantity"><br><br>
            Set price for shoe <input type ="number" id="price" required v-model="Shoe_Price"><br><br>
            Preferable for:<br>
@@ -16,11 +17,7 @@
            Upload Front Image <input type ="file" id="imageUrl1" required v-bind:src="Shoe_URL1"><br><br>
            Upload side Angle Image <input type ="file" id="imageUrl2" required v-bind:src="Shoe_URL2"><br><br>
            Upload back Angle Image <input type ="file" id="imageUrl3" required v-bind:src="Shoe_URL3"> <br><br>
-           <input type="submit" value="Add Shoe">
-         
-
-
-
+           <input type="submit" value="Add Shoe"></form>
     </header>
 
   </div>
@@ -28,7 +25,7 @@
 
 <script>
 export default {
-
+  name: 'AddShoes',
   data: function () {
         return {
             Shoe_Name: '',

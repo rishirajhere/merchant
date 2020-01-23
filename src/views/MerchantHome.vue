@@ -1,5 +1,6 @@
 <template>
   <div>
+  
     <MerchantBody/>
   </div>
 </template>

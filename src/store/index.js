@@ -6,12 +6,19 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     
-      todos:[]
+      todos:[],
+      isLogged:true,
+      loginInfo: {}
       
   },
   mutations: {
     
-    setTodos: (state , todos) =>  (state.todos = todos)
+    setTodos: (state , todos) =>  (state.todos = todos),
+
+    LOGIN_RESPONSE(state,data){
+        this.loginInfo=data
+    }
+
    
   },
   actions: {
@@ -19,9 +26,9 @@ export default new Vuex.Store({
 
     search(context) {
       // eslint-disable-next-line no-debugger
-        fetch('https://jsonplaceholder.typicode.com/todos', {
+        fetch('http://jsonplaceholder.typicode.com/photos', {
           method: 'GET',
-          // body: data
+          // body: JSON.stringfy(data)
         })
         .then(res => res.json())
         .then(res => {
@@ -36,11 +43,34 @@ export default new Vuex.Store({
         //   fail && fail()
         })
 
-      }
+      },
 
+      loginUser(context,{data,success,fail})  {
+        fetch('http://jsonplaceholder.typicode.com/posts', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          header: {
+            'content-type': 'application/json'
+          }
 
+        }).then(res => res.json())
+        .then(res=>{
+          context.commit('LOGIN_RESPONSE',{ 
+            ...res })
+        // })
+
+        success && success(res)
+      })
+      .catch(err => {
+        window.console.log(err)
+
+        fail && fail()
+      })
   },
+},
   getters: {
     allTodos : (state) => state.todos
   }
 })
+  
+  
