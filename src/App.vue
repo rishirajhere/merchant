@@ -1,74 +1,88 @@
 <template>
 
-  <div id="app">
+    <div id="app">
+        
+        
+     
+      <!-- <span v-if="!this.$store.state.isLogged"> -->
+
+            <Navbar/>
+            <router-view/>
+            <footer/>
+      <!-- </span> -->
+
+
+<!-- <span v-if="!this.$store.state.isLogged"> -->
+         <!-- <button @click="redirect">Login</button> -->
+         <!-- <Facebook></Facebook>
+            <Google></Google>
+         <button @click="redirect">NewMerchant</button> -->
+     <!-- </span> -->
+
+     
+     
 
 
 
+<!-- <div v-if="this.$store.state.isLogged"> -->
+        <!-- </div> -->
 
-   <div v-if="isLogged">
+        <!-- <div v-else> -->
+              <!-- <h1>  Welcome to Merchant T9Cart</h1>
 
-    <Navbar/>
-    <router-view/>
-    
-
-   </div>
-
-   <div v-else>
-      <h1>  Welcome to Merchant T9Cart</h1>
-
-            <div class="fill">
-   
-                  <label >Email</label><input v-model="userEmail" type="email" required>
-                  <br>
-                  <label >Password</label><input type="password" v-model="userPassword">
-                  <br>
-                  <br>
-                  <button @click="initiateLogin" >Submit</button>
-                  <br>
-                  <button class="xyz">Login with facebook</button>
-                  <button class="xyz">Login with Email</button>
-                  <br>
-                  <router-link to="/newuser"> New user?</router-link>
-                  <br>
-                  <br>
-            </div>
-
-
-
-
-
-
-   </div>
-
-
-
-
-
-  </div>
+                    <div class="fill">
+          
+                          <label >Email</label><input v-model="userEmail" type="email" required>
+                          <br>
+                          <label >Password</label><input type="password" v-model="userPassword">
+                          <br>
+                          <br>
+                          <button @click="initiateLogin" >Submit</button>
+                          <br>
+                           <button class="xyz">Login with facebook</button> -->
+                          <!-- <Facebook></Facebook> -->
+                          <!-- <Google/> -->
+                          <!-- <button class="xyz">Login with Email</button> -->
+                          <!-- <br>
+                          <button onClick="redirect"> New user?</button>
+                          <br>
+                          <br> -->
+                     <!-- </div> --> 
+          <!-- </div> -->
+    </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+//  import Facebook from '@/components/Facebook.vue'
+//  import Google from '@/components/Google.vue'
 export default {
   name:'App',
   components:{
-    Navbar
+    Navbar//,Facebook,Google
   },
    data: function () {
     return {
       // isLogged: false,
        userEmail:'',
        userPassword:'',
-       isLogged:true
+      //  isLogged:true
 
     }
   }
   ,
   methods:{
+    
+     redirect(){
+          this.$router.push('/NewMerchant')
+     },
+
+
+
     initiateLogin(){
       const data = {
         userEmail: this.userEmail,
-       userPassword: this.userPassword
+        userPassword: this.userPassword
       }
       this.$store.dispatch('loginUser',{
         data,
@@ -78,12 +92,11 @@ export default {
 
     },
     onLoginSuccess () {
-      this.isLogged=true
+      this.$store.state.isLogged=true
         this.$router.push({name: '/'})
     },
     onLoginFail () {
-      this.isLogged= false
-    //  this.$router.push({name: 'errorPage'})
+      window.console.log("Wrong credentials")
     }
   }
 }
@@ -96,7 +109,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* background-color: orange; */
 }
 
 #nav {
@@ -112,14 +124,11 @@ export default {
   color: #42b983;
 }
 .fill{
-border: 4px solid black;
+  border: 4px solid black;
   width: 50%;
-margin-left: 25%;
-margin-top: 10%;
-padding: 30px;
+  margin-left: 25%;
+  margin-top: 10%;
+  padding: 30px;
 }
-
-
-
 
 </style>

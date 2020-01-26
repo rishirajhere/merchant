@@ -1,33 +1,91 @@
 <template>
-    <nav class="navbar">
-            <router-link  to="/dash" >Dashboard</router-link>     | 
-            <router-link to="/mobile">Add Mobile</router-link>     | 
-            <router-link to="/laptop">Add Laptop</router-link>     | 
-            <router-link to="/watches">Add Watches</router-link>     | 
-            <router-link to="/shoes">Add Shoes</router-link>     | 
-            <router-link to="/apparel">Add Apparel</router-link> | 
-            <router-link to="/books">Add Books</router-link>  |
-            <button @click='getout'>Logout</button>
+ <!-- <span v-if="this.$store.state.isLogged"> -->
+     <nav class="navbar" >
+            <button @click="login">Login</button> |
+            <button @click="getDash">Dashboard</button>   | 
+            <button @click="getAllMobiles">Add Mobile</button>     | 
+            <button @click="getAllLaptops">Add Laptop</button>     | 
+            <button @click="getAllWatches">Add Watches</button>     | 
+            <button @click="getAllShoes">Add Shoes</button>     | 
+            <button @click="getAllApparels">Add Apparel</button> | 
+            <button @click="getAllBooks">Add Books</button>  |
+            <button @click="logout">Logout</button>  
 
-  </nav>
+    </nav>
+<!-- </span> -->
+   
+
+
+
 </template>
 <script>
+
 export default {
-    methods:{
-        getout(){
-            window.console.log("jaaa yaha se")
-            this.$store.isLogged=false
-            this.$router.push('/')
-    }
-    }
-    
+   methods:{
+        logout(){
+            // this.$store.dispatch('logout'),{
+            //     success: this.onLoginSuccess,
+            //     fail: this.onLoginFail
+
+            localStorage.removeItem("payload")
+            
+             this.$router.push("/")
+            // v-if()
+
+
+            
+        },
+        onLoginSuccess () {
+            this.router.push({name: '/'})
+            
+        },
+
+        login(){
+             this.$router.push("/login")
+        },
+
+        onLoginFail () {
+            window.console.log("Not Logged out Sorry ;)")
+        },
+        getAllBooks(){
+            
+
+            this.$router.push("/books")
+        },
+        getAllApparels(){
+
+            this.$router.push("/apparel")
+        },
+        getAllShoes(){
+            this.$router.push("/shoes")
+        },
+        getAllWatches(){
+            this.$router.push("/watches")
+        },
+        getAllLaptops(){
+
+            this.$router.push("/laptop")
+        },
+        getAllMobiles(){
+            this.$router.push("/mobile")
+        },
+        getDash(){
+            this.$router.push("/dash")
+        }
+
+
+}
+
+
+
 }
 </script>
 <style scoped>
 .navbar {
-    border: 1px solid orange;
+    border: 1px solid #F7937D;
     background: orange;
     height: 8vh;
+    
 }
 
 .search{
@@ -73,11 +131,6 @@ export default {
 .login:visited,.cart:visited{
     color: black;
 }
-/* .search-btn{
-    padding: 5px;
-    border-radius: 3px solid orange;
-    background: white;
-} */
 a:visited{
     text-decoration: none;
     color: black;

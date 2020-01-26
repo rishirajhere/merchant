@@ -3,68 +3,185 @@
     <header>
 <br><br><br>
 <h1>Add Shoe</h1>
+ <h2>Add Shoe from list</h2><br>
+        <!-- <form> -->
+                <select @change="setProduct($event)" v-model="selectedProduct" >
+                    <option>Select Shoe</option>
+                        <option v-for="n in getDataFromStore" :key="n.merchantAndProductId" :value="n.productId">
+                            {{n.productName}}, Rating:{{n.productRating}} </option>
+                </select><br><br><br>
+                Add number of Shoe to sell <input type="number" id="quantity" v-model="selectedQuantity"><br><br>
+                Set price of Shoe <input type="number" id="price" v-model="selectedPrice"><br><br>
+                <button @click="selectedAdd">Add Shoe to Sell</button>
 
-<form>
+
+        <!-- </form> -->
+
+        <br><br><br><br><br><br><br><br>
+        <hr>
+        <h2>Can't find your Shoe from the list?</h2>
+        <h3>No worries</h3>
+        <h2>Add your own Shoe</h2><br><br><br><br><br>
+
+<!-- <form> -->
            
-           Shoe Brand <input type="text" id="shoeBrand" required v-model="Shoe_Name"><br><br>
-           Shoe Description <input type ="text" id="mobileDescription" required v-model="Shoe_Description"><br><br>
+           Shoe Brand <input type="text" id="shoeBrand" required v-model="productName"><br><br>
+           Shoe Description <input type ="text" id="mobileDescription" required v-model="description"><br><br>
            Size <input type ="number" id="shoeSize" required v-model="Shoe_Size"><br><br>
-           No. of shoes to sell <input type ="number" id="quantity" required v-model="Shoe_Quantity"><br><br>
-           Set price for shoe <input type ="number" id="price" required v-model="Shoe_Price"><br><br>
+           Colour <input type ="text" id="shoeColour" required v-model="colour"><br><br>
+           No. of shoes to sell <input type ="number" id="quantity" required v-model="quantity"><br><br>
+           Set price for shoe <input type ="number" id="price" required v-model="price"><br><br>
            Preferable for:<br>
            <input type="radio" name="gender" id="gender" value="men" v-model="Shoe_Gender"> Men<br>
            <input type="radio" name="gender" id="gender" value="women" v-model="Shoe_Gender"> Women<br><br>
-           Upload Front Image <input type ="file" id="imageUrl1" required v-bind:src="Shoe_URL1"><br><br>
-           Upload side Angle Image <input type ="file" id="imageUrl2" required v-bind:src="Shoe_URL2"><br><br>
-           Upload back Angle Image <input type ="file" id="imageUrl3" required v-bind:src="Shoe_URL3"> <br><br>
-           <input type="submit" value="Add Shoe"></form>
+           Set Selling price for shoe <input type ="number" id="price1" required v-model="sellingPrice"><br><br>
+           Enter Url of Front Image <input type ="text" id="imageUrl1"  v-model="url1" required><br><br>
+           Enter Url of Side Angle Image <input type ="text" id="imageUrl2"  v-model="url2" required><br><br>
+           Enter Url of Back Image <input type ="text" id="imageUrl3"  v-model="url3" required><br><br>
+           <button @click="initiateAddingShoe">Add Shoe</button>
     </header>
 
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'AddShoes',
   data: function () {
         return {
-            Shoe_Name: '',
-            Shoe_Description: '',
-            Shoe_Size: '',
-            Shoe_Quantity: '',
-            Shoe_Price: '',
-            Shoe_Gender: '',
-            Shoe_URL1: '',
-            Shoe_URL2: '',
-            Shoe_URL3: ''
+
+
+            selectedProduct:'',
+            selectedQuantity:'',
+            selectedPrice:'',
+            Shoe_Size:'',
+            Shoe_Gender:'',
+            colour:'',
+
+
+//=================================
+            productId: '',
+            productRating:'',
+            revenue:'',
+            merchantAndProductId:'',
+            totalSellingQuantity:'',
+            merchantId:'',
+
+//=================================
+
+
+            productName: '',
+            description: '',
+            // Shoe_Size: '',
+            sellingPrice:'',
+            quantity: '',
+            price: '',
+            // Shoe_Gender: '',
+            url1:'',
+            url2:'',
+            url3:'',
+            categoryName:'shoe',
+            attributes:{
+                    attribute1: '',
+                    attribute2: '',
+                    attribute3: ''
+
+            }
         }
     }
 ,
+  created(){ 
+        //called automatically when this component reloaded...
+        this.$store.dispatch('getDataFromDatabaseUsingApi',{
+            // name,
+            success: this.getting,
+            fail: this.getFail
+        })
+    },
+    computed: {
+        ...mapGetters(['getDataFromStore'])},
     methods: {
-        initiateLogin() {
+         ...mapActions(['getDataFromDatabaseUsingApi']),
+        setProduct(event){
+            this.productId = event.target.value
+        },
+
+        selectedAdd(){
+
             const data = {
-                Shoe_Name: this.Shoe_Name,
-                Shoe_Description: this.Shoe_Description,
-                Shoe_Size: this.Shoe_Size,
-                Shoe_Quantity: this.Shoe_Quantity,
-                Shoe_Price: this.Shoe_Price,
-                Shoe_Gender: this.Shoe_Gender,
-                Shoe_URL1: this.Shoe_URL1,
-                Shoe_URL2: this.Shoe_URL2,
-                Shoe_URL3: this.Shoe_URL3
+                    selectedProduct: this.selectedProduct,
+                    selectedQuantity: this.selectedQuantity,
+                    selectedPrice: this.selectedPrice,
+                    productId: this.productId
+            }
+
+
+            this.$store.dispatch('addSelectedProduct', {
+                data: data,
+                success: this.onAddingSuccess,
+                fail: this.onAddingFail 
+            })
+
+        },
+
+
+
+        initiateAddingShoe() {
+            const data = {
+
+
+
+
+
+                productId: '',
+                productRating:'',
+                revenue:'',
+                merchantAndProductId:'',
+                totalSellingQuantity:'',
+
+
+
+
+
+
+
+            productName: this.productName,
+            description: this.description,
+            // Shoe_Size: '',
+            sellingPrice: this.sellingPrice,
+            quantity: this.quantity,
+            price: this.price,
+            // Shoe_Gender: '',
+            url1: this.url1,
+            url2: this.url2,
+            url3: this.url3,
+            categoryName:'shoe',
+            attributes:{
+                    attribute1: this.Shoe_Size,
+                    attribute2: this.Shoe_Gender,
+                    attribute3: this.colour
 
             }
-            this.$store.dispatch('Shoes', {
-                data,
-                success: this.onLoginSuccess,
-                fail: this.onLoginFail
+            }
+            this.$store.dispatch('addToDatabase', {
+                data: data,
+                success: this.onAddingSuccess,
+                fail: this.onAddingFail
             })
         },
-        onLoginSuccess () {
+        onAddingSuccess () {
             this.$router.push({name: '/'})
         },
-        onLoginFail () {
+        onAddingFail () {
             this.$router.push({name: 'errorPage'});
+        }
+        ,
+        getting(){
+            window.console.log("Data came from database")
+        },
+        getFail(){
+            window.console.log("Something went wrong") 
         }
     }
 }

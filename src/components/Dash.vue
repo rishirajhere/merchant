@@ -3,19 +3,28 @@
          <h1> Welcome to your Dashboard </h1>
          <div class="todos"> 
              <div v-for="todo in allTodos" :key="todo.id" class="todo">
-                 <img :src="todo.url"><br>
-                <b>Name of product:</b> {{todo.name}}<br>
-                <b>Quantity:</b> {{todo.username}}
+                 <img :src="todo.url1"><br>
+                 <img :src="todo.url2"><br>
+                 <img :src="todo.url3"><br>
+                 
+                <b>Name of product:</b> {{todo.productName}}<br>
+                <b>Quantity:</b> {{todo.totalSellingQuantity}}<br>
+                <b>Price:</b> {{todo.price}}<br>
+                <b>About product:</b> {{todo.description}}<br>
+                <b>Product Rating:</b> {{todo.productRating}}<br>
+                <b>Category:</b> {{todo.categoryName}}<br>
+                <!-- <b>productId:</b> {{todo.productId}}<br>
+                <b>merchantAndProductId:</b> {{todo.merchantAndProductId}}<br> -->
+                <b>Selling Price:</b> {{todo.sellingPrice}}<br><br><br>
                 
-                <br>
-                <b>Price: Rs.</b>
-                {{todo.id}}
-                
-                <br>
                 <div class="update">
-
-
-                <router-link tag="button" to="/updateProduct">Update</router-link>
+                    <h4>Update Price, Quantity of this product</h4>
+                    <form>
+                        New Quantity <input type="number" id="quantity1" required v-model="quantity"><br><br>
+                        New Price <input type="number" id="price1" required v-model="sellingPrice"><br><br>
+                        <!-- <input type="hidden" v-model="merchantAndProductId" :value=todo.merchantAndProductId> -->
+                        <button @click="initiateUpdate(todo)">Update Product</button>
+                    </form>
                 </div>
              </div>
          </div>
@@ -24,17 +33,55 @@
 </template>
 <script>
 
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
     name : "Dash",
-    methods: {  
-        ...mapActions(['search']),
+
+    data: function (){
+        return {
+            quantity:'',
+            sellingPrice: '',
+            merchantAndProductId: '',
+            productId:''
+            
+        }
+    },
+
+    // var payload = JSON.parse(localStorage.getItem('payload'));
+    methods: {
+    
+        initiateUpdate(todo){
+            const data = {
+                quantity: this.quantity,
+                sellingPrice: this.sellingPrice,
+                merchantAndProductId: todo.merchantAndProductId,
+                productId: todo.productId
+            }
+            this.$store.dispatch('updateProduct', {
+                data,
+                success: this.onAddingSuccess,
+                fail: this.onAddingFail 
+            })
+
+        },
+        onAddingSuccess () {
+            this.$router.push({name: '/'})
+        },
+        onAddingFail () {
+            this.$router.push({name: 'errorPage'});
+        },
+
+
+
 
     }, 
-    computed: mapGetters(['allTodos'])
-    ,
+    computed: mapGetters(['allTodos']),
+    // ...mapActions(['search'])
+    
     created(){
-        this.$store.dispatch('search'); 
+        this.$store.dispatch('search',41); 
+        // this.search() 
+        window.console.log(this.merchantAndProductId)
     }
 }
 </script>
@@ -47,7 +94,7 @@ export default {
 
 .todo{
     border: 1px solid #ccc;
-    background: #F7937D;
+    background: rgb(243, 126, 100);
     padding: 1rem;
     border-radius: 5px;
     text-align: center;
@@ -55,17 +102,9 @@ export default {
     
 }
 .update{
-    
-  /* background-color: #4CAF50;   */
-  border: none;
+ border: none;
   color: rgb(145, 48, 48); 
    padding: 10px; 
-   text-align: center; 
-   text-decoration: none; 
-   display: inline-block;
-   font-size: 50px;
-   /* cursor: pointer;  */
-
 }
 
 img {
@@ -74,5 +113,4 @@ img {
   padding: 5px;
   width: 300px;
 }
-
 </style>

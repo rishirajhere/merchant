@@ -13,25 +13,19 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  {
-    path: '/merchant',
-    name: 'merch',
-    component: () => import(/* webpackChunkName: "about" */ '../views/MerchantHome.vue')
-  },
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: () => import(/* webpackChunkName: "about" */ '../components/Home.vue')
-  // },
+ 
   {
     path: '/mobile',
     name: 'mobile',
     component: () => import(/* webpackChunkName: "about" */ '../components/AddMobile.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
     path: '/laptop',
@@ -68,14 +62,14 @@ const routes = [
     component:()=> import(/* webpackChunkName: "about" */ '../views/UpdateProduct.vue')
   },
   {
-    path:'/MerchantLogin',
-    name:'MerchantLogin',
-    component:()=> import(/* webpackChunkName: "about" */ '../components/MerchantLogin.vue')
+    path:'/NewMerchant',
+    name:'NewMerchant',
+    component:()=> import(/* webpackChunkName: "about" */ '../views/NewMerchant.vue')
   },
   {
-    path:'/',
-    name:'Logout',
-    component:()=> import(/* webpackChunkName: "about" */ '../components/MerchantLogin.vue')
+    path:'/Merchant',
+    name:'Merchant',
+    component:()=> import(/* webpackChunkName: "about" */ '../views/MerchantProfile.vue')
   }
 ]
 
